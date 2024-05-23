@@ -1,0 +1,6 @@
+data/
+**/*.zarr/*
+**/*.json
+**/*checkpoints*/
+*tokenizer_data/
+**/__pycache__/*
