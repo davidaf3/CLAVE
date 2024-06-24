@@ -125,6 +125,28 @@ class SpTokenizer(Tokenizer):
         return self.sp.piece_to_id(token)
 
 
+class SpNoCustomTokenizer(SpTokenizer):
+    TOKENIZER_DATA_PATH = "tokenizer_no_custom_data"
+    TOKENIZER_PREFIX = "tokenizer_no_custom"
+
+    @classmethod
+    def train(cls, dataset_path: str):
+        files = os.listdir(dataset_path)
+        input = ",".join(map(lambda file: os.path.join(dataset_path, file), files))
+        spm.SentencePieceTrainer.train(
+            input=input,
+            model_prefix=cls.TOKENIZER_PREFIX,
+            vocab_size=MAX_VOCAB_SIZE,
+            remove_extra_whitespaces=False,
+            pad_id=PADDING_TOK,
+            bos_id=START_TOK,
+            eos_id=EOF_TOK,
+            unk_id=UNK_TOK,
+            control_symbols=["<mask>"],
+        )
+        _after_sp_training(cls.TOKENIZER_DATA_PATH, cls.TOKENIZER_PREFIX)
+
+
 class AdHocTokenizer(Tokenizer):
     TOKENIZER_DATA_PATH = "ad_hoc_tokenizer_data"
     TOKENIZER_PREFIX = "ad_hoc_tokenizer"
@@ -134,6 +156,7 @@ class AdHocTokenizer(Tokenizer):
 
     def __init__(self) -> None:
         from config import AD_HOC_USE_SP
+
         self.use_sp = AD_HOC_USE_SP
 
         cur_token_id = N_TOKENS + SPECIAL_TOKENS
@@ -205,6 +228,7 @@ class AdHocTokenizer(Tokenizer):
     @classmethod
     def get_vocab_size(cls) -> int:
         from config import AD_HOC_USE_SP
+
         return MAX_VOCAB_SIZE if AD_HOC_USE_SP else cls._get_base_token_count()
 
     @classmethod
@@ -221,6 +245,7 @@ class AdHocTokenizer(Tokenizer):
     @classmethod
     def train(cls, dataset_path: str):
         from config import AD_HOC_USE_SP
+
         if not AD_HOC_USE_SP:
             return
 

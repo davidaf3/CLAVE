@@ -134,7 +134,7 @@ if __name__ == "__main__":
     scaler = torch.cuda.amp.GradScaler()
 
     epochs = 20
-    checkpoint_path = os.path.join("checkpoints", f"{SEQ_LENGTH}_4_layer")
+    checkpoint_path = os.path.join("checkpoints", f"{SEQ_LENGTH}_no_custom")
     start_epoch = load_latest_checkpoint(
         checkpoint_path, model, optimizer, scaler, None
     )

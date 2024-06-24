@@ -174,14 +174,14 @@ def eval_model(distances, start, end, step1, step2, bootstraping=True):
         return
 
     metrics = tuple([] for _ in range(5))
-    for i in range(10000):
+    for i in range(1000):
         y_true_b, y_pred_b, y_score_b = resample(
             y_true, y_pred, y_score, stratify=y_true
         )
         for j, metric in enumerate(get_metrics(y_true_b, y_pred_b, y_score_b)):
             metrics[j].append(metric)
         if i % 100 == 0:
-            print(f"{i} / 10000", end="\r")
+            print(f"{i} / 1000", end="\r")
 
     metrics_with_ci = (
         (np.mean(metric), confidence_interval(metric)) for metric in metrics
@@ -229,14 +229,17 @@ if __name__ == "__main__":
 
     scs_gan = SCSGan(ntokens, 128, 16).cuda()
     scs_gan_checkpoint = torch.load(
-        "scs_gan/checkpoints/checkpoint-8-val_loss-0.3831-val_acc-0.9587"
+        "scs_gan/checkpoints/sp_no_custom/checkpoint-8-val_loss-0.3820-val_acc-0.9590"
     )
     scs_gan.load_state_dict(scs_gan_checkpoint["model_state_dict"])
     scs_gan.eval()
+    rnn_data = EvalDataset(
+        os.path.join("data", "gcj_dataset_sp_no_custom", "test.zarr")
+    )
 
     white_sprague = WhiteSpragueModel(ntokens).cuda()
     white_sprague_checkpoint = torch.load(
-        "white_sprague/checkpoints/512/checkpoint-3-val_loss-3.1013-val_acc-0.0000"
+        "white_sprague/checkpoints/512_no_custom/checkpoint-5-val_loss-3.1827-val_acc-0.6956"
     )
     white_sprague.load_state_dict(white_sprague_checkpoint["model_state_dict"])
     white_sprague.eval()
@@ -253,17 +256,15 @@ if __name__ == "__main__":
             0.2,
             0.01,
             0.0005,
-            bootstraping=False,
         )
 
-        """
+        """"
         eval_model(
             get_distances(model, model_data, F.pairwise_distance, CollateFnPairs(0)),
-            9.5,
-            13.5,
+            0,
+            15,
             0.25,
             0.05,
-            bootstraping=False,
         )
         """
 
@@ -279,7 +280,6 @@ if __name__ == "__main__":
             2,
             0.025,
             0.005,
-            bootstraping=False,
         )
         """
 
@@ -287,7 +287,7 @@ if __name__ == "__main__":
         eval_model(
             get_distances(
                 scs_gan,
-                model_data,
+                rnn_data,
                 lambda x, y: 1 - embedding_similarity(x, y),
                 CollateFnPairs(0),
             ),
@@ -295,7 +295,6 @@ if __name__ == "__main__":
             1,
             0.25,
             0.005,
-            bootstraping=False,
         )
         """
 
@@ -303,7 +302,7 @@ if __name__ == "__main__":
         eval_model(
             get_distances(
                 white_sprague,
-                model_data,
+                rnn_data,
                 lambda x, y: 1 - F.cosine_similarity(x, y),
                 CollateFnPairs(0),
             ),
@@ -311,7 +310,6 @@ if __name__ == "__main__":
             0.2,
             0.01,
             0.0005,
-            bootstraping=False,
         )
         """
 
@@ -322,6 +320,5 @@ if __name__ == "__main__":
             0.2,
             0.01,
             0.0005,
-            bootstraping=False,
         )
         """

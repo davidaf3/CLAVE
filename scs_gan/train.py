@@ -273,9 +273,9 @@ if __name__ == "__main__":
 
     batch_size = 32
     train_data = SCSGanDataset(
-        "train", FINE_TUNING_DATASET_PATH, size=20000 * batch_size
+        "train", os.path.join("..", FINE_TUNING_DATASET_PATH), size=20000 * batch_size
     )
-    val_data = SCSGanValDataset(FINE_TUNING_DATASET_PATH)
+    val_data = SCSGanValDataset(os.path.join("..", FINE_TUNING_DATASET_PATH))
 
     train_dataloader = DataLoader(
         train_data,
@@ -302,7 +302,7 @@ if __name__ == "__main__":
     optimizer = torch.optim.NAdam(model.parameters(), lr=lr)
 
     epochs = 100
-    checkpoint_path = "checkpoints"
+    checkpoint_path = os.path.join("checkpoints", "sp_no_custom")
     start_epoch = load_latest_checkpoint(checkpoint_path, model, optimizer, None, None)
 
     for epoch in range(start_epoch, epochs + 1):
