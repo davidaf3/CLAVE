@@ -161,7 +161,7 @@ if __name__ == "__main__":
     )
 
     ntokens = TOKENIZER.get_vocab_size()  # size of vocabulary
-    emsize = 256  # embedding dimension
+    emsize = 512  # embedding dimension
     d_hid = 2048  # dimension of the feedforward network
     nlayers = 6  # number of encoder layers
     nhead = 8  # number of attention heads

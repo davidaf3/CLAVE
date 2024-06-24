@@ -9,9 +9,9 @@ AD_HOC_USE_SP = True
 PRETRAINING_CHECKPOINT = os.path.join(
     "best_checkpoints",
     "pretraining",
-    "sp",
+    "sp_512_emb",
     "512",
-    "checkpoint-25-val_loss-0.3707-val_acc-0.9200",
+    "checkpoint-43-val_loss-0.2770-val_acc-0.9380",
 )
 
 from tokenizer import SpTokenizer

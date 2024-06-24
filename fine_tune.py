@@ -133,15 +133,15 @@ if __name__ == "__main__":
 
     pretraining_checkpoint = torch.load(PRETRAINING_CHECKPOINT)
     pretrained_weights = {
-        k[8:]: v
+        k[8 if k.startswith("e") else 18:]: v
         for k, v in pretraining_checkpoint["model_state_dict"].items()
-        if k.startswith("encoder.")
+        if k.startswith("encoder.") or k.startswith("_orig_mod.encoder.")
     }
 
     ntokens = TOKENIZER.get_vocab_size()  # size of vocabulary
-    emsize = 256  # embedding dimension
+    emsize = 512  # embedding dimension
     d_hid = 2048  # dimension of the feedforward network
-    d_out = 256  # output dimension
+    d_out = 512  # output dimension
     nlayers = 6  # number of encoder layers
     nhead = 8  # number of attention heads
     dropout = 0.1  # dropout probability

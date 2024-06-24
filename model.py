@@ -58,6 +58,8 @@ class FineTunedModel(nn.Module):
         self.linear.weight.data.uniform_(-initrange, initrange)
         if pretrained_weights is not None:
             self.encoder.load_state_dict(pretrained_weights)
+        else:
+            self.encoder.init_weights()
 
     def forward(self, src: Tensor) -> Tensor:
         output = self.encoder(src)

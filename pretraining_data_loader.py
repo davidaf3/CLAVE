@@ -62,8 +62,6 @@ if __name__ == "__main__":
         os.mkdir(PRETRAINING_DATASET_PATH)
 
     files = os.listdir(DATASET_PATH)
-    print(round(len(files) * 0.9))
-    exit()
     random.shuffle(files)
     write_dataset(files, "train", PRETRAINING_DATASET_PATH)
     write_dataset(files, "val", PRETRAINING_DATASET_PATH)
