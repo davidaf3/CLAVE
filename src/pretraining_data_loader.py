@@ -8,7 +8,7 @@ from config import SEQ_LENGTH, PRETRAINING_DATASET_PATH, TOKENIZER
 from utils import pad_and_split_tokens
 
 
-DATASET_PATH = os.path.join(os.pardir, "Crawler", "python_dataset")
+DATASET_PATH = os.path.join(os.pardir, os.pardir, "Crawler", "python_dataset")
 
 
 def dataset_generator(files, part):

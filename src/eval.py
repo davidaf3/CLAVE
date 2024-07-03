@@ -81,9 +81,9 @@ def get_distances(model, data, distance_fn, collate_fn):
     return distances
 
 
-def get_disctances_codebert(distance_fn):
+def get_disctances_hf_model(distance_fn, model_name: str):
     embeddings = zarr.open_array(
-        os.path.join(FINE_TUNING_DATASET_PATH, "codebert_embeddings_test.zarr"),
+        os.path.join(FINE_TUNING_DATASET_PATH, f"{model_name}_embeddings_test.zarr"),
         mode="r",
         cache_metadata=True,
         cache_attrs=True,
@@ -315,9 +315,47 @@ if __name__ == "__main__":
 
         """
         eval_model(
-            get_disctances_codebert(lambda x, y: 1 - F.cosine_similarity(x, y)),
+            get_disctances_hf_model(
+                lambda x, y: 1 - F.cosine_similarity(x, y), "codebert"
+            ),
             0,
             0.2,
+            0.01,
+            0.0005,
+        )
+        """
+
+        """
+        eval_model(
+            get_disctances_hf_model(
+                lambda x, y: 1 - F.cosine_similarity(x, y), "graphcodebert"
+            ),
+            0,
+            0.2,
+            0.01,
+            0.0005,
+        )
+        """
+
+        """
+        eval_model(
+            get_disctances_hf_model(
+                lambda x, y: 1 - F.cosine_similarity(x, y), "codesage"
+            ),
+            0,
+            2,
+            0.01,
+            0.0005,
+        )
+        """
+
+        """
+        eval_model(
+            get_disctances_hf_model(
+                lambda x, y: 1 - F.cosine_similarity(x, y), "starencoder"
+            ),
+            0,
+            2,
             0.01,
             0.0005,
         )

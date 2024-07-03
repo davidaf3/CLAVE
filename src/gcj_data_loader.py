@@ -13,7 +13,7 @@ from utils import pad_and_split_tokens
 from abc import ABCMeta, abstractmethod
 
 
-DATASET_PATH = os.path.join(os.path.dirname(__file__), os.pardir, "gcj")
+DATASET_PATH = os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, "gcj")
 
 
 def get_partition_data(part: str) -> list[tuple[str, str, str]]:
