@@ -9,3 +9,5 @@
 </p>
 
 This repository contains the source code for training and evaluating [CLAVE](https://www.reflection.uniovi.es/bigcode/download/2024/CLAVE/) and the baselines ([FDR](https://github.com/davidaf3/CLAVE/tree/master/src/fdr), [SCS-Gan](https://github.com/davidaf3/CLAVE/tree/master/src/scs_gan), and [White *et al.*](https://github.com/davidaf3/CLAVE/tree/master/src/white_sprague)).
+
+You can easily run the model with this [Jupyter Notebook](https://github.com/davidaf3/CLAVE/blob/master/src/run_clave.ipynb).
