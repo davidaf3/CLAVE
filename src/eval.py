@@ -360,3 +360,15 @@ if __name__ == "__main__":
             0.0005,
         )
         """
+
+        """
+        eval_model(
+            get_disctances_hf_model(
+                lambda x, y: 1 - F.cosine_similarity(x, y), "cubert"
+            ),
+            0,
+            2,
+            0.01,
+            0.0005,
+        )
+        """
